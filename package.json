@@ -4,9 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node server/server.js",
     "test": "mocha server/**/*.test.js",
     "test-watch": "nodemon --exec 'npm test'"
   },
+  "engines": {          //For Heroku
+    "node": "10.5.0"
+  }, 
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -22,3 +26,9 @@
     "supertest": "^2.0.0"
   }
 }
+
+/* Things for Heroku
+heroku addons:create mongolab:sandbox
+heroku config ~This will show the mongodb uri that your app can connect to
+*/
+
