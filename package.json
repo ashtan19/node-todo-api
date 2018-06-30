@@ -8,7 +8,7 @@
     "test": "mocha server/**/*.test.js",
     "test-watch": "nodemon --exec 'npm test'"
   },
-  "engines": {          //For Heroku
+  "engines": {
     "node": "10.5.0"
   }, 
   "author": "",
@@ -27,8 +27,5 @@
   }
 }
 
-/* Things for Heroku
-heroku addons:create mongolab:sandbox
-heroku config ~This will show the mongodb uri that your app can connect to
-*/
+
 

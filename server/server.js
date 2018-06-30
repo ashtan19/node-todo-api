@@ -3,6 +3,13 @@
  * Responsible for the routes
  */
 
+
+/* Things for Heroku
+heroku addons:create mongolab:sandbox
+heroku config ~This will show the mongodb uri that your app can connect to
+git push heroku master
+*/
+
 var express = require("express");
 var bodyParser = require("body-parser");
 const {ObjectID} = require("mongodb");
