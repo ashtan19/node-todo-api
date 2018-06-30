@@ -36,8 +36,8 @@ app.get("/todos", (req, res) => {
         res.send({todos});              //Send an object instead of arrays. More flexible(eg. can add status codes)
     }, (e) => {
         res.status(400).send(e);
-    })
-})
+    });
+});
 
 
 
