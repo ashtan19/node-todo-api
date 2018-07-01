@@ -10,6 +10,8 @@ heroku config ~This will show the mongodb uri that your app can connect to
 git push heroku master
 */
 
+require("./config/config");
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const {ObjectID} = require("mongodb");
@@ -19,8 +21,9 @@ var {mongoose} = require("./db/mongoose");
 var {Todo} = require("./models/todo");
 var {User} = require("./models/user");
 
+
 var app = express();
-var port = process.env.PORT || 3000;
+var port = process.env.PORT;
 
 // Express Middleware
 // Can send JSON to our app
