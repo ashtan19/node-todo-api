@@ -41,7 +41,6 @@ UserSchema.methods.toJSON = function () {
     return _.pick(userObject, ["_id", "email"]);
 };
 
-
 // Use this method to create a token for a new user
 UserSchema.methods.generateAuthToken = function () {
     var user = this;
@@ -54,6 +53,27 @@ UserSchema.methods.generateAuthToken = function () {
         return token;
     });
 }
+
+// This is a model method instead of an instance method
+UserSchema.statics.findByToken = function (token) {
+    var User = this;
+    var decoded;                //Decoded jwt token 
+
+    try {
+        decoded = jwt.verify(token, "abc123");
+    } catch (e) {
+        return Promise.reject();            //Reject to stop the program from continuing
+    };
+
+    //Return because it will allow you to add chaining afterwards 
+    return User.findOne({
+        "_id": decoded._id,
+        "tokens.token": token,                 //Wrap in quotes to query nested doc
+        "tokens.access": "auth"
+    })
+
+}
+
 
 //Cannot have methods on models
 var User = mongoose.model("User", UserSchema);
