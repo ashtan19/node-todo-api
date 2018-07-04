@@ -56,6 +56,28 @@ UserSchema.methods.generateAuthToken = function () {
 }
 
 // This is a model method instead of an instance method
+UserSchema.statics.findByCredentials = function (email, password) {
+    var User = this;
+
+    // Returning a promise back to server.js
+    return  User.findOne({email: email.trim()}).then((user) => {
+        if (!user) {
+            return Promise.reject();
+        }
+
+        // Need to return promise because bcrypt only supports callbacks
+        return new Promise((resolve, reject) => {
+            bcrypt.compare(password, user.password, (err, result) => {
+                if (result) {
+                    resolve(user);              // Pass the user back
+                } else {
+                    reject();                   // The rejection will get caught at the other end
+                }
+            });
+        })
+    });
+}
+
 UserSchema.statics.findByToken = function (token) {
     var User = this;
     var decoded;                //Decoded jwt token 

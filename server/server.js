@@ -16,6 +16,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const {ObjectID} = require("mongodb");
 const _ = require("lodash");
+const bcrypt = require("bcryptjs");
 
 var {mongoose} = require("./db/mongoose");
 var {Todo} = require("./models/todo");
@@ -146,6 +147,45 @@ app.post("/users", (req, res) => {
 app.get("/users/me", authenticate, (req, res) => {
     res.send(req.user);
 });
+
+app.post("/users/login", (req, res) => {
+    var body = _.pick(req.body, ["email", "password"]);
+
+    User.findByCredentials(body.email, body.password).then((user) => {
+        // Use return so that the catch clause can catch the error
+        return user.generateAuthToken().then((token) => {
+            res.header("x-auth", token).send(user);
+        })
+    }).catch((e) => {
+        res.status(400).send();
+    });
+
+    // User.findOne({email: body.email.trim()}).then((user) => {
+    //     if (!user) {
+    //         console.log("User account not created for this email. Please sign up!");
+    //         return res.status(404).send();
+    //     }
+    //     bcrypt.compare(body.password, user.password, (err, result) => {
+    //         if (result) {
+    //             res.status(200).send(user);
+    //             console.log("Login Successful");
+    //         } else {
+    //             res.status(400).send("Password incorrect");
+    //             console.log("Password incorrect");
+    //         }
+    //     });
+    // }).catch((e) => {
+    //     console.log(e);
+    //     res.status(400).send(e);
+    // })
+
+})
+
+
+
+
+
+
 
 app.listen(port, () => {
     console.log(`Started on port: ${port}`);
