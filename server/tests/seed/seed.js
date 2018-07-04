@@ -18,7 +18,11 @@ const users = [{
 }, {
     _id: userTwoId,
     email: "kathy321@hotmail.com",
-    password: "userTwoPass"
+    password: "userTwoPass",
+    tokens: [{
+        access: "auth",
+        token: jwt.sign({_id: userTwoId, access: "auth"}, "abc123").toString()
+    }]
 }]
 
 // Different from populating todos because we need the hashing middleware to run
@@ -33,12 +37,15 @@ const populateUsers = (done) => {
 
 const todos = [{                        //Prepopulate the db
     text: "First Test Todo",
-    _id: new ObjectID ()
+    _id: new ObjectID (),
+    _creator: userOneId    
 }, {
     text: "Second Test Todo",
     _id: new ObjectID (),
     completed: true,
-    completedAt: 1234
+    completedAt: 1234,
+    _creator: userTwoId
+    
 }]
 
 const populateTodos = (done) => {
