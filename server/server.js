@@ -8,6 +8,11 @@
 heroku addons:create mongolab:sandbox
 heroku config ~This will show the mongodb uri that your app can connect to
 git push heroku master
+
+//Setting Heroku Environment Variables
+heroku config:set NAME=Maple //Use this to set API keys / secrets in heroku
+heroku config:get NAME
+heroku config:unset NAME
 */
 
 require("./config/config");
