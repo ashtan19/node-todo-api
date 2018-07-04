@@ -160,25 +160,14 @@ app.post("/users/login", (req, res) => {
         res.status(400).send();
     });
 
-    // User.findOne({email: body.email.trim()}).then((user) => {
-    //     if (!user) {
-    //         console.log("User account not created for this email. Please sign up!");
-    //         return res.status(404).send();
-    //     }
-    //     bcrypt.compare(body.password, user.password, (err, result) => {
-    //         if (result) {
-    //             res.status(200).send(user);
-    //             console.log("Login Successful");
-    //         } else {
-    //             res.status(400).send("Password incorrect");
-    //             console.log("Password incorrect");
-    //         }
-    //     });
-    // }).catch((e) => {
-    //     console.log(e);
-    //     res.status(400).send(e);
-    // })
+});
 
+app.delete("/users/me/token", authenticate, (req, res) => {
+    req.user.removeToken(req.token).then(() => {
+        res.status(200).send();
+    }, () => {
+        res.status(400).send();
+    })
 })
 
 

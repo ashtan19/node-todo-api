@@ -42,6 +42,8 @@ UserSchema.methods.toJSON = function () {
     return _.pick(userObject, ["_id", "email"]);
 };
 
+// INSTANCE METHODS 
+
 // Use this method to create a token for a new user
 UserSchema.methods.generateAuthToken = function () {
     var user = this;
@@ -53,7 +55,19 @@ UserSchema.methods.generateAuthToken = function () {
     return user.save().then(() => {
         return token;
     });
+};
+
+UserSchema.methods.removeToken = function (token) {
+    var user = this;
+    return user.update({                   // $pull will pull out an object from an array and remove it
+        $pull: {
+            tokens: {token}
+        }
+    })
 }
+
+
+//MODEL METHODS
 
 // This is a model method instead of an instance method
 UserSchema.statics.findByCredentials = function (email, password) {
